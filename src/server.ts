@@ -1,8 +1,8 @@
-const express = require("express");
-const { ApolloServer, gql } = require("apollo-server-express");
-const typeDefs = require("./graphql/typeDefs");
-const resolvers = require("./graphql/resolvers");
-const mongoose = require("mongoose");
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
+import typeDefs from "./graphql/typeDefs.js";
+import resolvers from "./graphql/resolvers.js";
+import mongoose, { ConnectOptions } from "mongoose";
 
 async function startServer() {
   const app = express();
@@ -24,13 +24,13 @@ async function startServer() {
   });
 
   try {
-    // await mongoose.connect("mongodb://localhost:27017/mydb", {
     await mongoose.connect("mongodb://0.0.0.0:27017/post_db", {
-      useUnifiedTopology: true,
       useNewUrlParser: true,
-    });
+      useUnifiedTopology: true,
+    } as ConnectOptions);
+
     console.log("Mongoose connected.....");
-  } catch (error) {
+  } catch (error: any) {
     console.log("MongoDB Error", error.message);
   }
 
