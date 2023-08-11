@@ -29,12 +29,13 @@ const resolvers = {
       return createPost(post);
     },
 
-    updatePost: async (__: any, { post }: { post: any }) => {
-      return updatePost(post);
+    updatePost: async (__: any, { id, post }: { id: string; post: any }) => {
+      // updatePost: async (__: any, updatePost: {id: string, post: {title: string}}) => {
+      return updatePost(id, post);
     },
 
-    deletePost: async (__: any, { post }: { post: any }) => {
-      return deletePost(post);
+    deletePost: async (__: any, id: string) => {
+      return deletePost(id);
     },
   },
 };
