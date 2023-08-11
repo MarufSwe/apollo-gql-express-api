@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
 import { Post, IPost } from "../models/Post.model";
 
-const createPost = async (post: any) => {
+import {
+  GetPostQuery,
+  CreatePostMutation,
+  UpdatePostMutation,
+  DeletePostMutation,
+} from "../interfaces/PostInterface";
+
+const createPost = async (post: CreatePostMutation["post"]) => {
   const { title, description } = post;
   console.log("title & description: ", title, description);
   const newPost = new Post({ title, description });
@@ -9,7 +16,8 @@ const createPost = async (post: any) => {
   return newPost;
 };
 
-const getPost = async (id: any) => {
+const getPost = async (query: GetPostQuery) => {
+  const { id } = query;
   return await Post.findById(id);
 };
 
@@ -17,10 +25,9 @@ const getAllPosts = async () => {
   return await Post.find();
 };
 
-const updatePost = async (id: string, post: any) => {
+const updatePost = async (mutation: UpdatePostMutation) => {
+  const { id, post } = mutation;
   const updates: { title?: string; description?: string } = {};
-
-  console.log("Test: ", id, post);
 
   if (post.title !== undefined) {
     updates.title = post.title;
@@ -39,14 +46,17 @@ const updatePost = async (id: string, post: any) => {
   return updatedPost;
 };
 
-const deletePost = async (id: string) => {
+const deletePost = async (mutation: DeletePostMutation) => {
+  const { id } = mutation;
+
   try {
     await Post.findByIdAndDelete(new mongoose.Types.ObjectId(id));
   } catch (error: any) {
     console.log("ERROR: ", error.message);
-    return "Failed";
+    throw new Error("Failed to delete post");
   }
-  return "post deleted successfully!!";
+
+  return "Post deleted successfully!!";
 };
 
 export { createPost, getAllPosts, getPost, updatePost, deletePost };

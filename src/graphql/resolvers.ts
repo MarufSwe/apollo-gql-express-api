@@ -5,40 +5,37 @@ import {
   getPost,
   updatePost,
 } from "../controller/Post-controller";
-// const Post = require("../models/Post.model");
+
+import {
+  CreatePostMutation,
+  DeletePostMutation,
+  GetPostQuery,
+  UpdatePostMutation,
+} from "../interfaces/PostInterface";
 
 const resolvers = {
-  // Query
   Query: {
     hello: () => {
       return "Hello world;";
     },
-
     getAllPosts: () => {
       return getAllPosts();
     },
-
-    getPost: async (__: any, { id }: { id: any }) => {
-      return getPost(id);
+    getPost: async (__: any, { id }: GetPostQuery) => {
+      return getPost({ id });
     },
   },
-
-  // Mutation
   Mutation: {
-    createPost: async (__: any, { post }: { post: any }) => {
+    createPost: async (__: any, { post }: CreatePostMutation) => {
       return createPost(post);
     },
-
-    updatePost: async (__: any, { id, post }: { id: string; post: any }) => {
-      // updatePost: async (__: any, updatePost: {id: string, post: {title: string}}) => {
-      return updatePost(id, post);
+    updatePost: async (__: any, { id, post }: UpdatePostMutation) => {
+      return updatePost({ id, post });
     },
-
-    deletePost: async (__: any, id: string) => {
-      return deletePost(id);
+    deletePost: async (__: any, { id }: DeletePostMutation) => {
+      return deletePost({ id });
     },
   },
 };
 
-// module.exports = resolvers;
 export default resolvers;
