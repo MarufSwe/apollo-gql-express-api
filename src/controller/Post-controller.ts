@@ -6,14 +6,29 @@ import {
   CreatePostMutation,
   UpdatePostMutation,
   DeletePostMutation,
-} from "../interfaces/PostInterface";
+} from "../interfaces/PostInterfaces";
 
 const createPost = async (post: CreatePostMutation["post"]) => {
-  const { title, description } = post;
+  const { title, description, owner } = post;
   console.log("title & description: ", title, description);
-  const newPost = new Post({ title, description });
+
+  // Make sure the owner field is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(owner)) {
+    throw new Error("Invalid owner id");
+  }
+
+  const newPost = new Post({ title, description, owner });
   await newPost.save();
-  return newPost;
+  console.log("newPost ", newPost);
+
+  const response = {
+    id: newPost._id,
+    title: newPost.title,
+    description: newPost.description,
+    owner: newPost.owner,
+  };
+
+  return response;
 };
 
 const getPost = async (query: GetPostQuery) => {

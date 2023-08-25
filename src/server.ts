@@ -17,7 +17,7 @@ async function startServer() {
 
   await apolloServer.start();
 
-  apolloServer.applyMiddleware({ app: app });
+  apolloServer.applyMiddleware({ app: app, path: "/apis" });
 
   app.use((req, res) => {
     res.send("Hello from express apollo server");

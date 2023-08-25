@@ -4,10 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "tsc && nodemon dist/server.js"
+    "compile": "tsc",
+    "compile_and_watch": "tsc -w",
+    "start": "npm run compile && node ./dist/server.js",
+    "dev": "npm run compile_and_watch && node ./dist/server.js",
+    "nodemon": "nodemon dist/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "nodemon": "^3.0.1"
   },
   "devDependencies": {
-    "@types/mongoose": "^5.11.97"
+    "@types/mongoose": "^5.11.97",
+    "rimraf": "^5.0.1"
   }
 }
